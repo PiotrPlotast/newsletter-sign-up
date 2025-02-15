@@ -12,7 +12,7 @@ export default function SignUpForm({
   isSubscribed,
   setEmail,
 }: SignUpFormProps) {
-  function handleSubmission(e) {
+  function handleSubmission(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     setIsSubscribed(!isSubscribed);
   }
