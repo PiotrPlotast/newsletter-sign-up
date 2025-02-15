@@ -1,20 +1,29 @@
+import { useState } from "react";
 import illustrationDesktop from "./assets/illustration-sign-up-desktop.svg";
 import illustrationMobile from "./assets/illustration-sign-up-mobile.svg";
+import * as EmailValidator from "email-validator";
 
 interface SignUpFormProps {
   setIsSubscribed: React.Dispatch<React.SetStateAction<boolean>>;
   isSubscribed: boolean;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  email: string;
 }
 
 export default function SignUpForm({
   setIsSubscribed,
   isSubscribed,
   setEmail,
+  email,
 }: SignUpFormProps) {
+  const [isValidEmail, setIsValidEmail] = useState(true);
   function handleSubmission(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    setIsSubscribed(!isSubscribed);
+    if (EmailValidator.validate(email)) {
+      setIsSubscribed(!isSubscribed);
+    } else {
+      setIsValidEmail(false);
+    }
   }
 
   return (
@@ -51,17 +60,23 @@ export default function SignUpForm({
         >
           <label
             htmlFor="email"
-            className="text-xs text-neutral-blue-800 font-bold"
+            className="text-xs text-neutral-blue-800 font-bold flex justify-between"
           >
-            Email address
+            <span>Email address</span>
+            <span
+              className={`text-red-500 ${isValidEmail ? "hidden" : "inline"}`}
+            >
+              Valid email required
+            </span>
           </label>
           <input
             type="email"
-            required
             id="email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="email@company.com"
-            className="border border-neutral-grey rounded-lg p-4"
+            className={`border border-neutral-grey rounded-lg p-4 ${
+              isValidEmail ? "" : "border-red-500 text-red-500 bg-red-100"
+            }`}
           />
           <button
             type="submit"

@@ -19,6 +19,7 @@ function App() {
             isSubscribed={isSubscribed}
             setIsSubscribed={setIsSubscribed}
             setEmail={setEmail}
+            email={email}
           />
         )}
       </div>
